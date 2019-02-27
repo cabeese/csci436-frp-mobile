@@ -9,3 +9,4 @@
 .externalNativeBuild
 node_modules/
 **/build/
+platforms/*
