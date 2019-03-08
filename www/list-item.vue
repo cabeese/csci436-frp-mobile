@@ -1,23 +1,13 @@
 <template>
-    <Page class="page">
-        <ActionBar title="Home" class="action-bar" />
-        <template>
-
-            <StackLayout orientation="horizontal" width="400" height="100"
-                backgroundColor="lightblue">
-                <TextField v-model="itemValue" hint="Item..." width="150" height="50"/>
-                <!--<TextField v-model="itemValue" hint="Amount..." width="75" />-->
-                <TextView keyboardType="number" v-model="amountCount" hint="Amount..." width="50" height="50"/>
-                <ListPicker :items="listPickerUnits" v-model="selectedListPickerIndex"
-                    width="75" />
-                <Button text="+" @tap="changeCountPlus" width="40" height="40" />
-                <Button text="-" @tap="changeCountMinus" width="40" height="40" />
-                <!--<Button text="+" @tap="onButtonTap" width="40" height="40" />-->
-                <!--<Button text="-" @tap="onButtonTap" width="40" height="40" />-->
-            </StackLayout>
-
-        </template>
-    </Page>
+    <StackLayout orientation="horizontal" class="item">
+        <TextField v-model="itemValue" hint="Item..." width="150" height="50"/>
+        <TextView class="text-center" keyboardType="number" v-model="amountCount"
+            hint="Amount..." width="50" height="50" />
+        <ListPicker :items="listPickerUnits" v-model="selectedListPickerIndex"
+            width="75" />
+        <Button text="+" @tap="changeCountPlus" width="40" height="40" />
+        <Button text="-" @tap="changeCountMinus" width="40" height="40" />
+    </StackLayout>
 </template>
 <script>
     export default {
@@ -28,9 +18,6 @@
             changeCountMinus() {
                 this.amountCount = this.amountCount - 1;
             }
-            /*onButtonTap() {
-                console.log("Button was pressed");
-            }*/
         },
         data() {
             return {
@@ -44,4 +31,8 @@
 </script>
 
 <style>
+    .item {
+        background-color: lightblue;
+        border: 5px darkblue;
+    }
 </style>
