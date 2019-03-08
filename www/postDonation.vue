@@ -10,16 +10,24 @@
                         height="50" />
                     <TextField keyboardType="number" v-model="contactNum"
                         hint="Phone Number" width="150" height="50" />
+                    <TextField v-model="location"
+                        hint="Location..." width="150" height="50" />
                 </StackLayout>
                 <StackLayout row="1" col="1">
                     <Label class="text-center" text="Description List" />
-                    <ListView for="items in donationList">
+                    <ListView for="items in donationList" rowHeight="100">
                         <v-template>
                             <listItem></listItem>
                         </v-template>
                     </ListView>
                 </StackLayout>
-                <Button row="2" col="1" width="100" text="Add Item" @tap="addItem" />
+                <StackLayout orientation="horizontal" row="2" col="1"
+                    horizontalAlignment="center">
+                    <Button width="100" text="Add Item" @tap="addItem"
+                        backgroundColor="lightgreen" />
+                    <Button width="125" text="Remove Item" @tap="removeItem"
+                        backgroundColor="red" />
+                </StackLayout>
             </GridLayout>
         </template>
     </Page>
@@ -37,12 +45,16 @@
         methods: {
             addItem() {
                 this.donationList.push(listItem);
+            },
+            deleteItem() {
+                this.donationList.pop(listItem);
             }
         },
         data() {
             return {
                 contactNum: "",
                 contactName: "",
+                location: "",
                 donationList: []
             };
         }
