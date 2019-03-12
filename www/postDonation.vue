@@ -10,8 +10,8 @@
                         height="50" />
                     <TextField keyboardType="number" v-model="contactNum"
                         hint="Phone Number" width="150" height="50" />
-                    <TextField v-model="location"
-                        hint="Location..." width="150" height="50" />
+                    <TextField v-model="location" hint="Location..." width="150"
+                        height="50" />
                 </StackLayout>
                 <StackLayout row="1" col="1">
                     <Label class="text-center" text="Description List" />
@@ -27,6 +27,7 @@
                         backgroundColor="lightgreen" />
                     <Button width="125" text="Remove Item" @tap="removeItem"
                         backgroundColor="red" />
+                    <Button width="100" text="Submit" @tap="submitItem" />
                 </StackLayout>
             </GridLayout>
         </template>
@@ -34,6 +35,7 @@
 </template>
 <script>
     import listItem from "./listItem";
+    import claimDonation from "./claimDonation";
     export default {
         name: "postDonation",
         mounted() {
@@ -46,8 +48,11 @@
             addItem() {
                 this.donationList.push(listItem);
             },
-            deleteItem() {
+            removeItem() {
                 this.donationList.pop(listItem);
+            },
+            submitItem(){
+                this.$navigateTo(claimDonation);
             }
         },
         data() {
@@ -62,5 +67,4 @@
 </script>
 
 <style>
-
 </style>
