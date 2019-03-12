@@ -4,3 +4,5 @@ console.log(store.getters.availableDonations);
 
 //store.commit("addDonation", {name: "donation 0"});
 store.dispatch("fetchDonations");
+
+//store.dispatch("postDonation", "myDonation");

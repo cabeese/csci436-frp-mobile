@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import fetch from 'node-fetch';
 
 Vue.use(Vuex);
+
+const HOST = "http://localhost:1337";
 
 const store = new Vuex.Store({
     state: {
@@ -25,16 +28,37 @@ const store = new Vuex.Store({
 
     actions: {
         async fetchDonations(context){
-            // pretend to do async fetch
-            console.log("fetching...");
-            await new Promise((resolve, reject) => { setTimeout(resolve, 1000); });
-            let donations = [{name: "donatino 1"}, {name: "donation 2"}];
-            console.log("fetched!");
+            const response = await fetch(HOST + "/donation");
+            const donations = await response.json()
 
             context.commit("addDonations", donations);
             console.log(context.state.donations);
+        },
+
+        async postDonation(context, donation){
+            console.log("trying to donate:", donation);
+            validateDonation(donation);
+            // POST donation, then context.commit("addDonation");
         }
     }
 });
+
+function validateDonation(donation){
+    const requiredFields = [
+        "location", "contactPhone", "items"
+    ];
+    requiredFields.forEach(field => {
+        if(!donation[field]) throw Error(`Donation is missing field: '${field}'`);
+    });
+
+    const requiredItemFields = [
+        "foodName", "initialQty", "remainingQty", "qtyUnits"
+    ];
+    donation.items.forEach((item, index)=>{
+        requiredItemFields.forEach(field => {
+            if(!item[field]) throw Error(`Donation item #${index} is missing '${field}'`);
+        });
+    })
+}
 
 export default store;
