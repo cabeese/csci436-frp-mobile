@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 
 Vue.use(Vuex);
 
-const HOST = "http://localhost:1337";
+const ROOT_URL = "https://foodbanks.herokuapp.com/api/v1/donation/";
 
 const store = new Vuex.Store({
     state: {
@@ -28,7 +28,7 @@ const store = new Vuex.Store({
 
     actions: {
         async fetchDonations(context){
-            const response = await fetch(HOST + "/donation");
+            const response = await fetch(ROOT_URL + "get-avail");
             const donations = await response.json()
 
             context.commit("addDonations", donations);
@@ -38,7 +38,12 @@ const store = new Vuex.Store({
         async postDonation(context, donation){
             console.log("trying to donate:", donation);
             validateDonation(donation);
-            // POST donation, then context.commit("addDonation");
+            const response = await fetch(ROOT_URL + "post-new", {
+                method: "POST",
+                body: JSON.stringify(donation)
+            });
+
+            context.commit("addDonation");
         }
     }
 });
