@@ -4,7 +4,8 @@ import fetch from 'node-fetch';
 
 Vue.use(Vuex);
 
-const ROOT_URL = "https://foodbanks.herokuapp.com/api/v1/donation/";
+const ROOT_URL = "https://foodbanks-staging.herokuapp.com/mob/v1/donation/";
+// const ROOT_URL = "http://localhost:1337/mob/v1/donation/";
 
 const store = new Vuex.Store({
     state: {
