@@ -262,3 +262,16 @@ DerivedData/
 !default.perspectivev3
 
 # End of https://www.gitignore.io/api/reactnative
+
+*.iml
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+node_modules/
+**/build/
+platforms/*
