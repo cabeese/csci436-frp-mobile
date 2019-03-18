@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { TOGGLE_FOO } from "./actionTypes";
+import { TOGGLE_FOO } from "../actionTypes";
 
 const initialState = {
     foo: true,
