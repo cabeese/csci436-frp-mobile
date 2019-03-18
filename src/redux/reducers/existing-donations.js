@@ -1,22 +1,33 @@
-import { FETCH_DONATIONS } from "../actionTypes";
+import { CALL_FETCH_DONATIONS, FETCH_DONATIONS_SUCC, FETCH_DONATIONS_FAIL } from "../actionTypes";
 
 const initialState = {
+    loading: false,
+    errorMessage: '',
     donations: [],
 };
 
-let nextId = 0;
-
 export default function (state = initialState, action) {
     switch (action.type) {
-        case FETCH_DONATIONS: {
-            nextId += 1;
+        case CALL_FETCH_DONATIONS: {
             return {
                 ...state,
-                donations: [
-                    ...state.donations,
-                    { key: String(nextId), name: "new donation" }
-                ]
-            };
+                loading: true,
+            }
+        }
+        case FETCH_DONATIONS_SUCC: {
+            // TODO: get `action.donations`
+            return {
+                ...state,
+                errorMessage: "",
+                loading: false,
+            }
+        }
+        case FETCH_DONATIONS_FAIL: {
+            return {
+                ...state,
+                loading: false,
+                errorMessage: action.errorMessage,
+            }
         }
         default:
             return state;

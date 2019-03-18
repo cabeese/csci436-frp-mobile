@@ -11,10 +11,10 @@ class DonationList extends React.Component {
     }
 
     render() {
-        let { donations, fetchDonations } = this.props;
+        let { donations, fetchDonations, loading, errorMessage } = this.props;
         return (
             <View style={styles.container}>
-                <Text>Here's the data:</Text>
+                <Text>{loading ? "Loading..." : "Here's the data:"}</Text>
 
                 <FlatList data={donations} renderItem={this._listItem} />
 
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
 });
   
 const mapStateToProps = state => {
-    const  { donations } = state.existingDonations;
-    return { donations };
+    const  { donations, loading, errorMessage } = state.existingDonations;
+    return { donations, loading, errorMessage };
 };
 
 const actionCreators = {
