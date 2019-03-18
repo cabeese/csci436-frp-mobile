@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
 import { TOGGLE_FOO } from "../actionTypes";
 
+import existingDonations from "./existing-donations";
+
 const initialState = {
     foo: true,
 };
@@ -19,4 +21,4 @@ function foobar(state = initialState, action) {
   }
 }
 
-export default combineReducers({ foobar });
+export default combineReducers({ foobar, existingDonations });

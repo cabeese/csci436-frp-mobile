@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import store from './src/redux/store'
 import FooViewer from './src/components/FooViewer'
+import DonationList from './src/components/donation-list';
 
 export default class App extends React.Component {
   render() {
@@ -12,6 +13,8 @@ export default class App extends React.Component {
           <Text>Open up App.js to start working on your app!</Text>
 
           <FooViewer />
+
+          <DonationList />
         </View>
       </Provider>
     );
