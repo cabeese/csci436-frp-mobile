@@ -6,8 +6,19 @@ import { fetchDonations } from '../redux/actions'
 class DonationList extends React.Component {
     _listItem({item}){
         return(
-            <Text>{item.name}</Text>
+            <Text>{item.location}</Text>
         )
+    }
+    _keyExtractor(item){
+        return String(item.id);
+    }
+    _error(){
+        let {errorMessage} = this.props;
+        if(errorMessage){
+            return <Text>Error: {errorMessage}</Text>
+        } else {
+            return null;
+        }
     }
 
     render() {
@@ -16,7 +27,9 @@ class DonationList extends React.Component {
             <View style={styles.container}>
                 <Text>{loading ? "Loading..." : "Here's the data:"}</Text>
 
-                <FlatList data={donations} renderItem={this._listItem} />
+                <FlatList data={donations} renderItem={this._listItem} keyExtractor={this._keyExtractor} />
+
+                {this._error()}
 
                 <Button title="Refresh" onPress={fetchDonations} />
             </View>

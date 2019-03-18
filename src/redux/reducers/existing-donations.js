@@ -15,11 +15,11 @@ export default function (state = initialState, action) {
             }
         }
         case FETCH_DONATIONS_SUCC: {
-            // TODO: get `action.donations`
             return {
                 ...state,
                 errorMessage: "",
                 loading: false,
+                donations: action.donations,
             }
         }
         case FETCH_DONATIONS_FAIL: {
