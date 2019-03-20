@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 import { fetchDonations } from '../redux/actions'
 
 class DonationList extends React.Component {
+    static navigationOptions = {
+        title: "Available Donations"
+    }
     _listItem({item}){
         return(
             <Text>{item.location}</Text>
