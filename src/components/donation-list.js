@@ -1,16 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import { connect } from 'react-redux'
-import { fetchDonations } from '../redux/actions'
+import { fetchDonations, setActiveDonation } from '../redux/actions'
 
 class DonationList extends React.Component {
     static navigationOptions = {
         title: "Available Donations"
     }
-    _listItem({item}){
+    _listItem = ({item}) => {
+        let { id, location, items } = item;
+        const title = `#${id} / ${items.length} item(s) / ${location}`;
         return(
-            <Text>{item.location}</Text>
+            <Button title={title} onPress={this._selectDonation.bind(null, id)} />
         )
+    }
+    _selectDonation = (id) => {
+        this.props.setActiveDonation(id);
+        this.props.navigation.navigate('ClaimDonation');
     }
     _keyExtractor(item){
         return String(item.id);
@@ -43,14 +49,13 @@ class DonationList extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-      height: "50%",
       backgroundColor: '#ffeeee',
       alignItems: 'center',
       justifyContent: 'center',
     },
     item: {}
 });
-  
+
 const mapStateToProps = state => {
     const  { donations, loading, errorMessage } = state.existingDonations;
     const userName = state.user.name;
@@ -58,7 +63,8 @@ const mapStateToProps = state => {
 };
 
 const actionCreators = {
-    fetchDonations
+    fetchDonations,
+    setActiveDonation
 };
 
 export default connect(

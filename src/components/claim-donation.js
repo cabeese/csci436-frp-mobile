@@ -1,59 +1,75 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Button, Picker } from 'react-native';
+import { Text, View, Button } from 'react-native';
+import { connect } from 'react-redux'
+import ClaimItem from "./claim-item"
+import { claimDonationPart } from "../redux/actions"
 
-export default class ClaimDonation extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      claimedQty: 0,
-    };
-  }
-  _onPressPlus = () => this.setState({ claimedQty: this.state.claimedQty + 1 })
-  _onPressMinus = () => this.setState({ claimedQty: this.state.claimedQty - 1 })
-  render() {
-    return (
-      <View style={styles.itemWhole}>
-          <Text style={styles.item}>
-            {this.props.foodName}
-          </Text>
-          <Text style={styles.item}>
-            {this.state.claimedQty}
-          </Text>
-          <Button style={styles.item}
-            onPress={this._onPressPlus}
-            title="+"
-            color="gray"
-          />
-          <Button style={styles.item}
-            onPress={this._onPressMinus}
-            title="-"
-            color="gray"
-          />
-          <Text style={styles.item}>
-            {this.props.remainingQty}
-          </Text>
-          <Text style={styles.item}>
-            {this.props.QtyUnits}
-          </Text>
+class ClaimDonation extends React.Component {
+    static navigationOptions = {
+        title: "Claim Donation"
+    }
 
-      </View>
+    _listItems(items){
+        return items.map(item => (
+            <ClaimItem {...item} key={item.id} ref={`item${item.id}`} />
+        ));
+    }
 
-    );
-  }
+    _getQtyFromChildren = () => {
+        let ret = [];
+        const items = this.props.items || [];
+        items.forEach( item => {
+            let {claimedQty} = this.refs[`item${item.id}`].exportState();
+            let { foodName } = item;
+            if(claimedQty){
+                ret.push({
+                    foodName,
+                    qty: claimedQty
+                });
+            }
+        });
+        return ret;
+    }
+
+    _doClaim = () =>{
+        const details = this._getQtyFromChildren();
+        const { id } = this.props;
+        this.props.claimDonationPart(id, details);
+    }
+
+    render() {
+        let { loading, errorMessage, justClaimed, items } = this.props;
+        items = items || [];
+        let text = justClaimed ? "Claimed!" : "Claim Selected Quantities..."
+        if(loading) text = "Loading..."
+        let disabled = justClaimed || loading;
+
+        return (
+            <View>
+                <Text>Use the +/- buttons to claim items</Text>
+
+                {this._listItems(items)}
+
+                <Text>{errorMessage || ""}</Text>
+
+                <Button
+                    title={text}
+                    disabled={disabled}
+                    onPress={this._doClaim} />
+            </View>
+        )
+    }
 }
 
-const styles = StyleSheet.create({
-  item: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    margin: 5,
-  },
-  itemWhole: {
-    backgroundColor: 'steelblue',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-  },
-});
+const mapStateToProps = state => {
+    let { donations, activeDonationIdx } = state.existingDonations;
+    console.log(activeDonationIdx);
+    let { loading, errorMessage, justClaimed } = state.claim;
+    let activeDonation = activeDonationIdx > -1 ? donations[activeDonationIdx] : {};
+    return { loading, errorMessage, justClaimed, ...activeDonation };
+};
+
+export default connect(
+    mapStateToProps,
+    { claimDonationPart }
+)(ClaimDonation);
