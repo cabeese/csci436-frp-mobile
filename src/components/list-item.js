@@ -1,18 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button, Picker } from 'react-native';
 
+const UNITS = [
+  "cases",
+  "lbs",
+  "pallets",
+];
+
 export default class ListItem extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      number: 0,
-      type: ''
+      foodName: '',
+      qty: 0,
+      units: UNITS[0]
     };
   }
   _onPressPlus = () => this.setState({ number: this.state.number + 1 })
-  _onPressMinus = () => this.setState({ number: this.state.number - 1 })
+  _onPressMinus = () => {
+    if(this.state.number < 1) return;
+    this.setState({ number: this.state.number - 1 })
+  }
+  exportState(){
+    return this.state;
+  }
+
   render() {
     return (
       <View style={styles.itemWhole}>
@@ -28,13 +41,13 @@ export default class ListItem extends React.Component {
             </Text>
         </View>
         <Picker style={styles.itemType}
-          selectedValue={this.state.type}
+          selectedValue={this.state.units}
           onValueChange={(itemValue, itemIndex) =>
-            this.setState({type: itemValue})
+            this.setState({units: itemValue})
           }>
           <Picker.Item label="cases" value="cases" />
           <Picker.Item label="lbs" value="lbs" />
-          <Picker.Item label="boxes" value="boxes" />
+          <Picker.Item label="pallets" value="pallets" />
         </Picker>
         <View style={styles.buttonContainer}>
           <View style={styles.itemButton}>
