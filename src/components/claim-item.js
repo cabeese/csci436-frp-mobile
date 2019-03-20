@@ -19,6 +19,7 @@ export default class ClaimItem extends React.Component {
     if(claimedQty < 1) return;
     this.setState({ claimedQty: this.state.claimedQty - 1 })
   }
+  exportState = () => this.state;
   render() {
     const { foodName, remainingQty, qtyUnits } = this.props;
     return (

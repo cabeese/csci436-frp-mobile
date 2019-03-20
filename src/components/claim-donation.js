@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import { connect } from 'react-redux'
 import ClaimItem from "./claim-item"
 
@@ -10,8 +10,28 @@ class ClaimDonation extends React.Component {
 
     _listItems(items){
         return items.map(item => (
-            <ClaimItem {...item} key={item.id} />
+            <ClaimItem {...item} key={item.id} ref={`item${item.id}`} />
         ));
+    }
+
+    _getQtyFromChildren = () => {
+        let ret = [];
+        const items = this.props.items || [];
+        items.forEach( item => {
+            let {claimedQty} = this.refs[`item${item.id}`].exportState();
+            let { foodName } = item;
+            if(claimedQty){
+                ret.push({
+                    foodName,
+                    qty: claimedQty
+                });
+            }
+        });
+        return ret;
+    }
+
+    _doClaim = () =>{
+        console.log(this._getQtyFromChildren());
     }
 
     render() {
@@ -20,9 +40,11 @@ class ClaimDonation extends React.Component {
 
         return (
             <View>
-                <Text>There are {items.length} items</Text>
+                <Text>Use the +/- buttons to claim items</Text>
 
                 {this._listItems(items)}
+
+                <Button title="Claim Selected Quantities!" onPress={this._doClaim} />
             </View>
         )
     }
