@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button, Picker } from 'react-native';
 
-export default class ClaimDonation extends React.Component {
+export default class ClaimItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
