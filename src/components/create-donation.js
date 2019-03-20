@@ -10,6 +10,8 @@ class CreateDonation extends React.Component {
         this.state = {
             itemCt: 1
         }
+        this._getChildState = this._getChildState.bind(this);
+        this._postDonation = this._postDonation.bind(this);
     }
 
     _renderItems(){
@@ -21,9 +23,11 @@ class CreateDonation extends React.Component {
     }
 
     _getChildState(){
+        let ret = [];
         for(let i=0; i<this.state.itemCt; i++){
-            console.log(this.refs[`item${i}`].exportState());
+            ret.push(this.refs[`item${i}`].exportState());
         }
+        return ret;
     }
 
     _addItem(){ this.setState({itemCt: this.state.itemCt+1}); }
@@ -34,6 +38,11 @@ class CreateDonation extends React.Component {
         }
     }
 
+    _postDonation(){
+        const items = this._getChildState();
+        console.log("We would now post this");
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -41,7 +50,10 @@ class CreateDonation extends React.Component {
 
                 {this._renderItems()}
 
-                <Button title="Get state" onPress={this._getChildState.bind(this)} />
+                <Button title="Add Item" onPress={this._addItem.bind(this)} />
+                <Button title="Remove Item" onPress={this._removeItem.bind(this)} />
+
+                <Button title="Post Donation" onPress={this._postDonation} />
             </View>
         )
     }
