@@ -38,8 +38,11 @@ class ClaimDonation extends React.Component {
     }
 
     render() {
-        let { loading, errorMessage, items } = this.props;
+        let { loading, errorMessage, justClaimed, items } = this.props;
         items = items || [];
+        let text = justClaimed ? "Claimed!" : "Claim Selected Quantities..."
+        if(loading) text = "Loading..."
+        let disabled = justClaimed || loading;
 
         return (
             <View>
@@ -50,8 +53,8 @@ class ClaimDonation extends React.Component {
                 <Text>{errorMessage || ""}</Text>
 
                 <Button
-                    title={loading ? "Loading..." : "Claim Selected Quantities!"}
-                    disabled={loading}
+                    title={text}
+                    disabled={disabled}
                     onPress={this._doClaim} />
             </View>
         )
@@ -61,9 +64,9 @@ class ClaimDonation extends React.Component {
 const mapStateToProps = state => {
     let { donations, activeDonationIdx } = state.existingDonations;
     console.log(activeDonationIdx);
-    let { loading, errorMessage } = state.claim;
+    let { loading, errorMessage, justClaimed } = state.claim;
     let activeDonation = activeDonationIdx > -1 ? donations[activeDonationIdx] : {};
-    return { loading, errorMessage, ...activeDonation };
+    return { loading, errorMessage, justClaimed, ...activeDonation };
 };
 
 export default connect(
