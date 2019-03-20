@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, Button } from 'react-native';
 import { connect } from 'react-redux'
 import ClaimItem from "./claim-item"
+import { claimDonationPart } from "../redux/actions"
 
 class ClaimDonation extends React.Component {
     static navigationOptions = {
@@ -31,11 +32,13 @@ class ClaimDonation extends React.Component {
     }
 
     _doClaim = () =>{
-        console.log(this._getQtyFromChildren());
+        const details = this._getQtyFromChildren();
+        const { id } = this.props;
+        this.props.claimDonationPart(id, details);
     }
 
     render() {
-        let { items } = this.props;
+        let { loading, errorMessage, items } = this.props;
         items = items || [];
 
         return (
@@ -44,18 +47,26 @@ class ClaimDonation extends React.Component {
 
                 {this._listItems(items)}
 
-                <Button title="Claim Selected Quantities!" onPress={this._doClaim} />
+                <Text>{errorMessage || ""}</Text>
+
+                <Button
+                    title={loading ? "Loading..." : "Claim Selected Quantities!"}
+                    disabled={loading}
+                    onPress={this._doClaim} />
             </View>
         )
     }
 }
 
 const mapStateToProps = state => {
-    let { activeDonation } = state.existingDonations;
-    return activeDonation || {};
+    let { donations, activeDonationIdx } = state.existingDonations;
+    console.log(activeDonationIdx);
+    let { loading, errorMessage } = state.claim;
+    let activeDonation = activeDonationIdx > -1 ? donations[activeDonationIdx] : {};
+    return { loading, errorMessage, ...activeDonation };
 };
 
 export default connect(
     mapStateToProps,
-    null
+    { claimDonationPart }
 )(ClaimDonation);
