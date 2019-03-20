@@ -17,10 +17,10 @@ export default class ListItem extends React.Component {
       units: UNITS[0]
     };
   }
-  _onPressPlus = () => this.setState({ number: this.state.number + 1 })
+  _onPressPlus = () => this.setState({ qty: this.state.qty + 1 })
   _onPressMinus = () => {
-    if(this.state.number < 1) return;
-    this.setState({ number: this.state.number - 1 })
+    if(this.state.qty < 1) return;
+    this.setState({ qty: this.state.qty - 1 })
   }
   exportState(){
     return this.state;
@@ -32,12 +32,12 @@ export default class ListItem extends React.Component {
         <View style={styles.itemName}>
           <TextInput style={styles.itemName}
             placeholder="Item"
-            onChangeText={(item) => this.setState({item})}
+            onChangeText={(foodName) => this.setState({foodName})}
             />
         </View>
         <View style={styles.AmountContainer}>
             <Text style={styles.itemAmount}>
-              {this.state.number}
+              {this.state.qty}
             </Text>
         </View>
         <Picker style={styles.itemType}
