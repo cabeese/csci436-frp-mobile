@@ -14,7 +14,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
+          <Text>Please enter your information to post a donation below</Text>
 
           <CreateDonation />
         </View>
