@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Button } from 'react-native';
 
 import DonationList from './components/donation-list'
-import ListItem from './components/list-item'
+import CreateDonation from './components/create-donation'
 
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 
@@ -22,7 +22,7 @@ class Home extends Component {
                 }} />
 
                 <Button title="Post a Donation"
-                    onPress={() => this.props.navigation.navigate('ListItem')} />
+                    onPress={() => this.props.navigation.navigate('CreateDonation')} />
             </View>
         )
     }
@@ -31,7 +31,7 @@ class Home extends Component {
 export const Navigator = createStackNavigator({
     Home: { screen: Home },
     DonationList: { screen: DonationList },
-    ListItem: { screen: ListItem },
+    CreateDonation: { screen: CreateDonation },
 },{
     initialRouteName: 'Home',
 });
