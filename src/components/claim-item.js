@@ -8,17 +8,29 @@ export default class ClaimItem extends React.Component {
       claimedQty: 0,
     };
   }
-  _onPressPlus = () => this.setState({ claimedQty: this.state.claimedQty + 1 })
-  _onPressMinus = () => this.setState({ claimedQty: this.state.claimedQty - 1 })
+  _onPressPlus = () => {
+    const { claimedQty } = this.state;
+    const { remainingQty } = this.props;
+    if(claimedQty >= remainingQty) return;
+    this.setState({ claimedQty: this.state.claimedQty + 1 })
+  }
+  _onPressMinus = () => {
+    const { claimedQty } = this.state;
+    if(claimedQty < 1) return;
+    this.setState({ claimedQty: this.state.claimedQty - 1 })
+  }
   render() {
+    const { foodName, remainingQty, qtyUnits } = this.props;
     return (
       <View style={styles.itemWhole}>
           <Text style={styles.item}>
-            {this.props.foodName}
+            {foodName}
           </Text>
+
           <Text style={styles.item}>
-            {this.state.claimedQty}
+            {this.state.claimedQty} / {remainingQty} {qtyUnits}
           </Text>
+
           <Button style={styles.item}
             onPress={this._onPressPlus}
             title="+"
@@ -29,13 +41,6 @@ export default class ClaimItem extends React.Component {
             title="-"
             color="gray"
           />
-          <Text style={styles.item}>
-            {this.props.remainingQty}
-          </Text>
-          <Text style={styles.item}>
-            {this.props.QtyUnits}
-          </Text>
-
       </View>
 
     );
