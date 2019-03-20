@@ -15,7 +15,7 @@ export default class App extends React.Component {
       <Provider store={store}>
         <View style={styles.container}>
           <Text>Open up App.js to start working on your app!</Text>
-          <ClaimDonation foodName='Blueberries' QtyUnits={6} remainingQty={2}/>
+          <ClaimDonation foodName='Blueberries' QtyUnits='boxes' remainingQty={2}/>
         </View>
       </Provider>
     );
