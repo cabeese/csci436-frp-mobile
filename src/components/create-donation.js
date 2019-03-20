@@ -80,16 +80,16 @@ class CreateDonation extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-      height: "50%",
       backgroundColor: '#ffeeee',
+      flexDirection: 'column',
+      flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
     },
     item: {},
     input:{
-        height: 40, 
-        width: 150,
-        padding: 5,
+        flexDirection: 'row',
+        flex: 1,
         color: 'gray',
         borderBottomColor: 'black',
         borderBottomWidth: 1,
