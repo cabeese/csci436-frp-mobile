@@ -4,7 +4,7 @@ const initialState = {
     loading: false,
     errorMessage: '',
     donations: [],
-    activeDonation: null,
+    activeDonationIdx: -1,
 };
 
 export default function (state = initialState, action) {
@@ -17,10 +17,13 @@ export default function (state = initialState, action) {
             if(idx < donations.length){
                 return {
                     ...state,
-                    activeDonation: state.donations[idx]
+                    activeDonationIdx: idx,
                 }
             } else {
-                return state;
+                return {
+                    ...state,
+                    activeDonationIdx: -1,
+                };
             }
         }
         case CALL_FETCH_DONATIONS: {
