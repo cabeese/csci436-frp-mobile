@@ -30,7 +30,11 @@ class CreateDonation extends React.Component {
         for(let i=0; i<this.state.itemCt; i++){
             let data = {...this.refs[`item${i}`].exportState()};
             data.initialQty = data.qty;
+            // TODO: delete this crap and fix the server
+            data.remainingQty = data.qty;
+            data.qtyUnits = data.units;
             delete data.qty;
+            delete data.units;
             ret.push(data);
         }
         return ret;

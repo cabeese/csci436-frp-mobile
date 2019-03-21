@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, TextInput, View, Button, Picker } from 'react-native';
 
 const UNITS = [
-  "cases",
-  "lbs",
+  "crates",
+  "pounds",
   "pallets",
 ];
 
@@ -45,8 +45,8 @@ export default class ListItem extends React.Component {
           onValueChange={(itemValue, itemIndex) =>
             this.setState({units: itemValue})
           }>
-          <Picker.Item label="cases" value="cases" />
-          <Picker.Item label="lbs" value="lbs" />
+          <Picker.Item label="crates" value="crates" />
+          <Picker.Item label="pounds" value="pounds" />
           <Picker.Item label="pallets" value="pallets" />
         </Picker>
         <View style={styles.buttonContainer}>
