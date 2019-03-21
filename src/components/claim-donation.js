@@ -63,7 +63,6 @@ class ClaimDonation extends React.Component {
 
 const mapStateToProps = state => {
     let { donations, activeDonationIdx } = state.existingDonations;
-    console.log(activeDonationIdx);
     let { loading, errorMessage, justClaimed } = state.claim;
     let activeDonation = activeDonationIdx > -1 ? donations[activeDonationIdx] : {};
     return { loading, errorMessage, justClaimed, ...activeDonation };

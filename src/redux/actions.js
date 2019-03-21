@@ -1,4 +1,4 @@
-import { TOGGLE_FOO, CALL_FETCH_DONATIONS, FETCH_DONATIONS_FAIL, FETCH_DONATIONS_SUCC, SET_ACTIVE_DONATION, CLAIM_DONATION_PART, CLAIM_DONATION_SUCC, CLAIM_DONATION_FAIL } from "./actionTypes";
+import { TOGGLE_FOO, CALL_FETCH_DONATIONS, FETCH_DONATIONS_FAIL, FETCH_DONATIONS_SUCC, SET_ACTIVE_DONATION, CLAIM_DONATION_PART, CLAIM_DONATION_SUCC, CLAIM_DONATION_FAIL, NEW_DONATION_POST, NEW_DONATION_FAIL, NEW_DONATION_SUCC } from "./actionTypes";
 
 const ROOT_URL = "https://foodbanks-staging.herokuapp.com/mob/v1/donation/";
 
@@ -41,6 +41,38 @@ const claimDonationSucc = () => ({
 });
 const claimDonationFail = errorMessage => ({
   type: CLAIM_DONATION_FAIL,
+  errorMessage
+});
+
+export const postDonation = (donation) => {
+  return async dispatch => {
+    dispatch({type: NEW_DONATION_POST});
+    const url = ROOT_URL + "post-new";
+    let data = {
+      ...donation,
+      owner: 3, /* Temporary */
+    }
+    let body = JSON.stringify(data);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    });
+    if(response.ok){
+      dispatch(newDonationSucc());
+    } else {
+      dispatch(newDonationFail(`Response was ${response.status}`));
+    }
+  }
+}
+const newDonationSucc = () => ({
+  type: NEW_DONATION_SUCC
+});
+const newDonationFail = errorMessage => ({
+  type: NEW_DONATION_FAIL,
   errorMessage
 });
 
