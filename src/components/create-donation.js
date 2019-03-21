@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Button, TextInput } from 'react-native';
 import { connect } from 'react-redux'
-import { fetchDonations } from '../redux/actions'
+import { postDonation } from '../redux/actions'
 import ListItem from "./list-item"
 
 class CreateDonation extends React.Component {
@@ -28,7 +28,10 @@ class CreateDonation extends React.Component {
     _getChildState(){
         let ret = [];
         for(let i=0; i<this.state.itemCt; i++){
-            ret.push(this.refs[`item${i}`].exportState());
+            let data = {...this.refs[`item${i}`].exportState()};
+            data.initialQty = data.qty;
+            delete data.qty;
+            ret.push(data);
         }
         return ret;
     }
@@ -43,7 +46,14 @@ class CreateDonation extends React.Component {
 
     _postDonation(){
         const items = this._getChildState();
+        let data = {
+            contactPhone: this.state.phone,
+            location: this.state.location,
+            items,
+        }
         console.log("We would now post this");
+        console.log(data);
+        //this.props.postDonation(data);
     }
 
     render() {
@@ -103,4 +113,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default CreateDonation
+export default connect(
+    null,
+    { postDonation }
+)(CreateDonation);
