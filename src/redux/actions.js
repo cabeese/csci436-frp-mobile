@@ -47,10 +47,12 @@ const claimDonationFail = errorMessage => ({
 export const postDonation = (donation) => {
   return async dispatch => {
     dispatch({type: NEW_DONATION_POST});
-    const url = ROOT_URL + "claim-part";
-    let body = JSON.stringify(donation);
-    console.log(body);
-    return;
+    const url = ROOT_URL + "post-new";
+    let data = {
+      ...donation,
+      owner: 3, /* Temporary */
+    }
+    let body = JSON.stringify(data);
     const response = await fetch(url, {
       method: "POST",
       headers: {

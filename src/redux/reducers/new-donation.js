@@ -3,6 +3,7 @@ import { NEW_DONATION_POST, NEW_DONATION_FAIL, NEW_DONATION_SUCC } from "../acti
 const initialState = {
     loading: false,
     errorMessage: '',
+    justPosted: false, /* This is still also a hack */
 };
 
 export default function (state = initialState, action) {
@@ -11,23 +12,25 @@ export default function (state = initialState, action) {
         case NEW_DONATION_POST: {
             return {
                 ...state,
+                loading: true,
                 errorMessage: "",
+                justPosted: false,
             }
         }
         case NEW_DONATION_SUCC: {
             return {
                 ...state,
-                loadingClaim: false,
+                loading: false,
                 errorMessage: "",
-                justClaimed: true,
+                justPosted: true,
             }
         }
         case NEW_DONATION_FAIL: {
             return {
                 ...state,
-                loadingClaim: false,
+                loading: false,
                 errorMessage: action.errorMessage,
-                justClaimed: false,
+                justPosted: false,
             }
         }
         default:
