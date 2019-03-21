@@ -9,9 +9,9 @@ class CreateDonation extends React.Component {
         super(props);
         this.state = {
             itemCt: 1,
-            name: '',
-            phone: '',
-            location: ''
+            name: 'Noah',
+            phone: '650-1234',
+            location: 'WWU'
         }
         this._getChildState = this._getChildState.bind(this);
         this._postDonation = this._postDonation.bind(this);
@@ -51,29 +51,34 @@ class CreateDonation extends React.Component {
             location: this.state.location,
             items,
         }
-        console.log("We would now post this");
-        console.log(data);
-        //this.props.postDonation(data);
+        this.props.postDonation(data);
     }
 
     render() {
+        const { loading, errorMessage, justPosted } = this.props;
+        let title = justPosted ? "Posted!" : "Post Donation";
+        if(loading) title = "Posting...";
+        let disabled = loading || justPosted;
         return (
             <View style={styles.container}>
-                <Text>You're creating a new donation:</Text>
-                <TextInput style={styles.input}
-                    placeholder='Name'
-                    onChangeText={(name) => this.setState({name})}
-                    value={this.state.name} />
+                <View style={styles.userInfoContainer}>
+                    <TextInput style={styles.input}
+                        placeholder='Name'
+                        onChangeText={(name) => this.setState({name})}
+                        value={this.state.name} />
 
-                <TextInput style={styles.input}
-                    placeholder='Phone'
-                    onChangeText={(phone) => this.setState({phone})}
-                    value={this.state.phone} />
+                    <TextInput style={styles.input}
+                        placeholder='Phone'
+                        onChangeText={(phone) => this.setState({phone})}
+                        value={this.state.phone} />
 
-                <TextInput style={styles.input}
-                    placeholder='Location'
-                    onChangeText={(location) => this.setState({location})}
-                    value={this.state.location} />
+                    <TextInput style={styles.input}
+                        placeholder='Location'
+                        onChangeText={(location) => this.setState({location})}
+                        value={this.state.location} />
+                </View>
+
+                <Text>Enter details about this donation:</Text>
 
                 {this._renderItems()}
 
@@ -81,7 +86,10 @@ class CreateDonation extends React.Component {
                     <Button title="Add Item" onPress={this._addItem.bind(this)} />
                     <Button title="Remove Item" onPress={this._removeItem.bind(this)} />
                 </View>
-                    <Button title="Post Donation" onPress={this._postDonation} />
+
+                <Text>{errorMessage}</Text>
+
+                <Button title={title} disabled={disabled} onPress={this._postDonation} />
                 
             </View>
         )
@@ -95,6 +103,9 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    userInfoContainer: {
+        height: 150,
     },
     item: {},
     input:{
@@ -113,7 +124,11 @@ const styles = StyleSheet.create({
     }
 });
 
+const mapStateToProps = state => {
+    return state.newDonation;
+}
+
 export default connect(
-    null,
+    mapStateToProps,
     { postDonation }
 )(CreateDonation);
