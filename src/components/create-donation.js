@@ -65,7 +65,7 @@ class CreateDonation extends React.Component {
     _onPostFail(reason){
         Alert.alert(
             "Donation Failed!",
-            `Unable to post new donation. ${reason}.`,
+            reason,
             [
                 { text: "Ok" }
             ]

@@ -1,6 +1,7 @@
 import { TOGGLE_FOO, CALL_FETCH_DONATIONS, FETCH_DONATIONS_FAIL, FETCH_DONATIONS_SUCC, SET_ACTIVE_DONATION, CLAIM_DONATION_PART, CLAIM_DONATION_SUCC, CLAIM_DONATION_FAIL, NEW_DONATION_POST, NEW_DONATION_FAIL, NEW_DONATION_SUCC } from "./actionTypes";
 
 const ROOT_URL = "https://foodbanks-staging.herokuapp.com/mob/v1/donation/";
+//const ROOT_URL = "http://localhost:1337/mob/v1/donation";
 
 export const toggleFoo = () => ({
   type: TOGGLE_FOO,
@@ -73,6 +74,7 @@ export const postDonation = (donation) => {
     if(response.ok){
       dispatch(newDonationSucc());
     } else {
+      response.reason = await response.text();
       dispatch(newDonationFail(`Response status was ${response.status}`));
     }
     return response;
