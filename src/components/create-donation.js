@@ -1,10 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, TextInput, Alert } from 'react-native';
 import { connect } from 'react-redux'
 import { postDonation } from '../redux/actions'
 import ListItem from "./list-item"
 
 class CreateDonation extends React.Component {
+    static navigationOptions = {
+        title: "Create a Donation"
+    }
     constructor(props){
         super(props);
         this.state = {
@@ -47,22 +50,44 @@ class CreateDonation extends React.Component {
             this.setState({itemCt: itemCt - 1});
         }
     }
+    _goToHomeScreen = () => {
+        this.props.navigation.goBack();
+    }
+    _onPostSucc(){
+        Alert.alert(
+            "Donation Posted!",
+            "Donation was successfully posted.",
+            [
+                { text: "Ok", onPress: this._goToHomeScreen }
+            ]
+        )
+    }
+    _onPostFail(reason){
+        Alert.alert(
+            "Donation Failed!",
+            `Unable to post new donation. ${reason}.`,
+            [
+                { text: "Ok" }
+            ]
+        )
+    }
 
-    _postDonation(){
+    async _postDonation(){
         const items = this._getChildState();
         let data = {
             contactPhone: this.state.phone,
             location: this.state.location,
             items,
         }
-        this.props.postDonation(data);
+        const {ok, reason} = await this.props.postDonation(data);
+        if(ok) this._onPostSucc();
+        else this._onPostFail(reason);
     }
 
     render() {
-        const { loading, errorMessage, justPosted } = this.props;
-        let title = justPosted ? "Posted!" : "Post Donation";
-        if(loading) title = "Posting...";
-        let disabled = loading || justPosted;
+        const { loading, errorMessage } = this.props;
+        const title = loading ? "Posting..." : "Post Donation";
+        const disabled = loading;
         return (
             <View style={styles.container}>
                 <View style={styles.userInfoContainer}>

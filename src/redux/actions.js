@@ -53,19 +53,29 @@ export const postDonation = (donation) => {
       owner: 3, /* Temporary */
     }
     let body = JSON.stringify(data);
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: body,
-    });
+    let response = {};
+    try {
+      response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      }).catch(e => { throw e });
+    } catch(e){
+      /* We get here if there was an error making the request, not an
+         error from the server (e.g. 400 or 500), I'm fairly certain */
+      response.ok = false;
+      response.reason = "Network failure";
+      response.error = e;
+    }
     if(response.ok){
       dispatch(newDonationSucc());
     } else {
-      dispatch(newDonationFail(`Response was ${response.status}`));
+      dispatch(newDonationFail(`Response status was ${response.status}`));
     }
+    return response;
   }
 }
 const newDonationSucc = () => ({
