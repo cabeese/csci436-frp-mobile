@@ -113,7 +113,8 @@ class CreateDonation extends React.Component {
 
                 <View style={styles.buttonContainer}>
                     <Button title="Add Item" onPress={this._addItem.bind(this)} />
-                    <Button title="Remove Item" onPress={this._removeItem.bind(this)} />
+                    <Button title="Remove Item" onPress={this._removeItem.bind(this)}
+                        disabled={this.state.itemCt === 1} />
                 </View>
 
                 <Text>{errorMessage}</Text>
